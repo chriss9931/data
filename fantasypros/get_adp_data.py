@@ -19,9 +19,8 @@ for league_format, BASE_URL in BASE_URLS.items():
 
         df['PLAYER'] = df['Player Team (Bye)'].apply(lambda x: ' '.join(x.split()[:-2])) # removing the team and position
         df['POS'] = df['POS'].apply(lambda x: x[:2]) # removing the position rank
-        
         df = df[['PLAYER', 'POS', 'AVG']].sort_values(by='AVG')
-        df.to_csv(f'fantasypros/adp/{league_format}_ADP.csv')
+        df.to_csv(f'adp/{league_format}_ADP.csv')
     
     else:
         print('oops, something didn\'t work right', res.status_code)

@@ -8,7 +8,8 @@ BASE_URLS = {
     "STANDARD": "https://www.fantasypros.com/nfl/rankings/consensus-cheatsheets.php"
 }
 
-#Christian McCaffreyC. McCaffrey CAR
+
+# Christian McCaffreyC. McCaffrey CAR
 def get_player_name(name):
     name = ' '.join(name.split()[:2])
     first_name = name.split()[0]
@@ -20,16 +21,19 @@ def get_player_name(name):
 
     return name
 
+
 for league_format, BASE_URL in BASE_URLS.items():
     res = requests.get(BASE_URL)
 
     if res.ok:
         html = res.content
         soup = BS(html, 'html.parser')
-        table = soup.find('table', {'id': 'rank-data'})
-
-        df = pd.read_html(str(table))[0]
-
+        table = soup.find_all('table')
+        print(table[0])
+        print()
+        print(table[1])
+        df = pd.read_html(str(table))
+        print(df.columns)
         df = df[1:]
 
         df = df.drop('WSID', axis=1)
@@ -54,4 +58,4 @@ for league_format, BASE_URL in BASE_URLS.items():
         columns = ['Player', 'Team'] + columns
         df = df[columns]
 
-        df.to_csv(f'fantasypros/ecr/{league_format}_ECR.csv')
+        df.to_csv(f'ecr/{league_format}_ECR.csv')
